@@ -48,6 +48,8 @@ def welcome():
         f"/api/v1.0/precipitation"
         f"/api/v1.0/stations"
         f"/api/v1.0/tobs"
+        f"/api/v1.0/<start>"
+        f"/api/v1.0/<start>/<end>"
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -103,7 +105,23 @@ def names():
    prev_year = list(np.ravel(results))
 
    return jsonify(prev_year)
+@app.route("/api/v1.0/<start>")
+def tobs_start():
+    session=Session(engine)
+    results = session.query(HawaiiMeasure.tobs, HawaiiMeasure.date).all()
+    for date in HawaiiMeasure.tobs :
+        if date >= 2016-8-23:
+            results.append(HawaiiMeasure.tobs)
+    return jsonify(results)
 
+@app.route('/api/v1.0/<start>/<end>')
+def tobs_stats_range(start, end):
+    session=Session(engine)
+    results = session.query(HawaiiMeasure.tobs, HawaiiMeasure.date).all()
+    for date in HawaiiMeasure.tobs:
+        if start <= date <= end:
+            results.append(HawaiiMeasure.tobs)
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)
