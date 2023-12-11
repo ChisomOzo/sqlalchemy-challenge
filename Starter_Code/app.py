@@ -21,12 +21,12 @@ conn = engine.connect()
 Base = automap_base()
 # reflect the tables
 Base.prepare(autoload_with=engine)
-Base.metadata.create_all(conn)
+# Base.metadata.create_all(conn)
 # Save references to each table
 
 
 # Create our session (link) from Python to the DB
-Base.prepare(conn, reflect=True)
+# Base.prepare(conn, reflect=True)
 HawaiiMeasure = Base.classes.measurement
 HawaiiStation = Base.classes.station
 session = Session(conn)
@@ -53,7 +53,7 @@ def welcome():
     )
 
 @app.route("/api/v1.0/precipitation")
-def welcome():
+def precipitation():
     session=Session(engine)
     results = session.query(HawaiiMeasure).all()
     session.close()
@@ -69,7 +69,7 @@ def welcome():
 
 
 @app.route("/api/v1.0/stations")
-def names():
+def stations():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -87,7 +87,7 @@ def names():
 
 
 @app.route("/api/v1.0/tobs")
-def names():
+def tobs():
    session = Session(engine)
    last_date = dt.date(2017, 8, 23)
    year_ago = last_date - dt.timedelta(days=365)
