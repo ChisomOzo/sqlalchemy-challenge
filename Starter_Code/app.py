@@ -41,15 +41,15 @@ app = Flask(__name__)
 #################################################
 # Flask Routes
 #################################################
-@app.route("/")
-def welcome():
+@app.route('/')
+def index():
     """List all available api routes."""
     return (
-        f"/api/v1.0/precipitation"
-        f"/api/v1.0/stations"
-        f"/api/v1.0/tobs"
-        f"/api/v1.0/<start>"
-        f"/api/v1.0/<start>/<end>"
+        "/api/v1.0/precipitation"
+        "/api/v1.0/stations"
+        "/api/v1.0/tobs"
+        "/api/v1.0/<start>"
+        "/api/v1.0/<start>/<end>"
     )
 
 @app.route("/api/v1.0/precipitation")
@@ -114,7 +114,7 @@ def tobs_start():
             results.append(HawaiiMeasure.tobs)
     return jsonify(results)
 
-@app.route('/api/v1.0/<start>/<end>')
+@app.route('/api/v1.0/<start> tobs /<end>')
 def tobs_stats_range(start, end):
     session=Session(engine)
     results = session.query(HawaiiMeasure.tobs, HawaiiMeasure.date).all()
